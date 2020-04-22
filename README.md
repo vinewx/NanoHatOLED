@@ -8,14 +8,12 @@ OpenWrt OLED display for NanoHatOLED.
 - kmod-i2c-smbus
 - [luci-app-openclash](https://github.com/vernesong/OpenClash)
 - python-pillow
-- [python-rpi-gpio](https://github.com/pman0214/python_rpi)
 - python-smbus
 
 ## Compile / 编译
 ```bash
 # 请在feeds.conf.default中下方添加
 src-git OpenClash https://github.com/vernesong/OpenClash.git
-src-git python_rpi https://github.com/pman0214/python_rpi.git
 src-git NanoHatOLED https://github.com/vinewx/NanoHatOLED.git
 
 # 更新并安装feeds软件包
@@ -27,4 +25,4 @@ make menuconfig
 ```
 ## Thanks / 谢致
 - 本项目代码基于[Pi群固件](https://t.me/NewPiN1Channel/21) by [jerrykuku](https://github.com/jerrykuku)
-- [pman0214/python_rpi](https://github.com/pman0214/python_rpi)
+- [raspberry-gpio-python](https://sourceforge.net/projects/raspberry-gpio-python) by [croston](https://sourceforge.net/u/croston)
