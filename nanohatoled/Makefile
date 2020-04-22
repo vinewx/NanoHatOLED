@@ -12,7 +12,7 @@ define Package/$(PKG_NAME)
   SUBMENU:=3. Applications
   TITLE:=Support for NanoHatOLED
   PKGARCH:=all
-  DEPENDS:=+ifstat +kmod-i2c-core +kmod-i2c-gpio +kmod-i2c-gpio-custom +kmod-i2c-smbus +luci-app-openclash +python-pillow +python-rpi-gpio +python-smbus
+  DEPENDS:=+ifstat +kmod-i2c-core +kmod-i2c-gpio +kmod-i2c-gpio-custom +kmod-i2c-smbus +luci-app-openclash +python-pillow +python-smbus
 endef
 
 define Build/Prepare
@@ -28,8 +28,8 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/init.d
 	cp ./etc/init.d/oled $(1)/etc/init.d/oled
 	
-	$(INSTALL_DIR) $(1)/usr/share
-	cp -pR ./usr/share/* $(1)/usr/share/
+	$(INSTALL_DIR) $(1)/usr
+	cp -pR ./usr/* $(1)/usr/
 endef
 
 define Package/$(PKG_NAME)/postinst
