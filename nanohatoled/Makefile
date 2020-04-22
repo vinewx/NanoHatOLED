@@ -35,6 +35,9 @@ endef
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 chmod 0755 $${IPKG_INSTROOT}/etc/init.d/oled >/dev/null 2>&1
+if [ -z "$${IPKG_INSTROOT}" ]; then
+    /etc/init.d/oled enable
+fi
 exit 0
 endef
 
