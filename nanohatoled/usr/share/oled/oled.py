@@ -340,7 +340,7 @@ def getProxyState():
     return int(proxystate)
 
 def getProfileMode():
-    cmd = "uci get openclash.config.en_mode"
+    cmd = "uci get openclash.config.proxy_mode"
     profilemode = subprocess.check_output(cmd,shell = True)
     return profilemode
 
