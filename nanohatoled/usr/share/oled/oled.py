@@ -310,10 +310,13 @@ ipaddress=(s.getsockname()[0])
 s.close()
 
 def getIP():
+	global IFlan
 	ip = commands.getoutput("ubus call network.interface.lan status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'")
+	IFlan   = 1
 	if bool(re.search(r'\d', ip)) is False:
 		cmd = "ubus call network.interface.wwan status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'"
-		ip = subprocess.check_output(cmd,shell = True)
+		ip  = subprocess.check_output(cmd,shell = True)
+		IFlan = 0
 	return str(ip)
 
 def getCPUtemperature():
@@ -327,7 +330,10 @@ def getCPUuse():
 	return str(CPU)
 
 def getNetstat():
-	cmd = "ifstat -i br-lan -q 1 1 | awk 'NR>2 {print $1}'"
+	cmd = "ifstat -i wlan0 -q 1 1 | awk 'NR>2 {print $1}'"
+	global IFlan
+	if IFlan:
+		cmd = "ifstat -i br-lan -q 1 1 | awk 'NR>2 {print $1}'"
 	net = subprocess.check_output(cmd,shell = True).replace("\n", "")
 	if float(net) > 1024:
 		net = float(net) / 1024
