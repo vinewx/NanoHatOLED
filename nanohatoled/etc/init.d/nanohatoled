@@ -1,0 +1,21 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2009-2010 OpenWrt.org
+
+START=99
+STOP=15
+
+NanoHatOLED="python bakebit_nanohat_oled.py"
+
+start() {
+		
+		# 启动 OLED
+		cd /usr/share/NanoHatOLED
+		nohup $NanoHatOLED  > /dev/null 2>&1 &
+
+}
+
+stop() {
+		# 关闭 OLED
+		kill -9 `pidof $NanoHatOLED|sed "s/$//g"` 2>/dev/null
+}
+
