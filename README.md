@@ -25,3 +25,5 @@ make menuconfig
 - [friendlyarm/NanoHatOLED](https://github.com/friendlyarm/NanoHatOLED) 
 - [Pi群固件](https://t.me/NewPiN1Channel/21) by [jerrykuku](https://github.com/jerrykuku)
 - [raspberry-gpio-python](https://sourceforge.net/projects/raspberry-gpio-python) by [croston](https://sourceforge.net/u/croston)
+
+<img src="https://github.com/vinewx/NanoHatOLED/raw/master/assets/k1.jpg" width="250" /> <img src="https://github.com/vinewx/NanoHatOLED/raw/master/assets/k2.jpg" width="250" /> <img src="https://github.com/vinewx/NanoHatOLED/raw/master/assets/k3.jpg" width="250" />
