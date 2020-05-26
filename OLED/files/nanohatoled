@@ -10,7 +10,7 @@ start() {
 		
 		# 启动 OLED
 		cd /usr/share/NanoHatOLED
-		nohup $NanoHatOLED  > /dev/null 2>&1 &
+		$NanoHatOLED  > /dev/null 2>&1 &
 
 }
 

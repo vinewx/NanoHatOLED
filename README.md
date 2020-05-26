@@ -17,7 +17,7 @@ src-git NanoHatOLED https://github.com/vinewx/NanoHatOLED.git
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-# 选择要编译的包 LuCI -> Applications -> nanohatoled
+# 选择要编译的包 Extra packages -> NanoHatOLED
 make menuconfig
 ```
 ## Thanks / 谢致
