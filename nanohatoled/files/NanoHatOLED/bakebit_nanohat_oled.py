@@ -39,7 +39,6 @@ import bakebit_128_64_oled as oled
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
-import RPi.GPIO as GPIO
 import time
 import sys
 import subprocess
@@ -91,7 +90,6 @@ font11 = ImageFont.truetype('DejaVuSansMono.ttf', 11);
 
 global lock
 lock = threading.Lock()
-
 
 def get_ip_address(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -249,33 +247,22 @@ def update_page_index(pi):
     pageIndex = pi
     lock.release()
 
+def receive_signal(signum, stack):
+    global pageIndex
+    global pageSleepCountdown
+    global pageSleep
 
-image0 = Image.open('logo.png').convert('1')
-oled.drawImage(image0)
-time.sleep(2)
+    pageSleepCountdown = pageSleep #user pressed a button, reset the sleep counter
 
-#switch
-SWITCH_PIN1 = 11
-SWITCH_PIN2 = 13
-SWITCH_PIN3 = 15
-GPIO.setmode(GPIO.BOARD)
-GPIO.setwarnings(False)
-GPIO.setup(SWITCH_PIN1,GPIO.IN,GPIO.PUD_DOWN)
-GPIO.setup(SWITCH_PIN2,GPIO.IN,GPIO.PUD_DOWN)
-GPIO.setup(SWITCH_PIN3,GPIO.IN,GPIO.PUD_DOWN)
-GPIO.add_event_detect(SWITCH_PIN1, GPIO.RISING,bouncetime=200)  # add rising edge detection on a channel
-GPIO.add_event_detect(SWITCH_PIN2, GPIO.RISING,bouncetime=200)  # add rising edge detection on a channel
-GPIO.add_event_detect(SWITCH_PIN3, GPIO.RISING,bouncetime=200)  # add rising edge detection on a channel
-
-while True:
     lock.acquire()
     page_index = pageIndex
     lock.release()
 
+    if page_index==5:
+        return
 
-    if GPIO.event_detected(SWITCH_PIN1):
+    if signum == signal.SIGUSR1:
         print 'K1 pressed'
-        pageSleepCountdown = pageSleep #user pressed a button, reset the sleep counter
         if is_showing_power_msgbox():
             if page_index==3:
                 update_page_index(4)
@@ -286,13 +273,13 @@ while True:
             pageIndex=0
             draw_page()
 
-    if GPIO.event_detected(SWITCH_PIN2):
+    if signum == signal.SIGUSR2:
         print 'K2 pressed'
-        pageSleepCountdown = pageSleep #user pressed a button, reset the sleep counter
         if is_showing_power_msgbox():
             if page_index==4:
                 update_page_index(5)
                 draw_page()
+ 
             else:
                 update_page_index(0)
                 draw_page()
@@ -300,15 +287,25 @@ while True:
             update_page_index(1)
             draw_page()
 
-    if GPIO.event_detected(SWITCH_PIN3):
+    if signum == signal.SIGALRM:
         print 'K3 pressed'
-        pageSleepCountdown = pageSleep #user pressed a button, reset the sleep counter
         if is_showing_power_msgbox():
             update_page_index(0)
             draw_page()
         else:
             update_page_index(3)
             draw_page()
+
+
+image0 = Image.open('logo.png').convert('1')
+oled.drawImage(image0)
+time.sleep(2)
+
+signal.signal(signal.SIGUSR1, receive_signal)
+signal.signal(signal.SIGUSR2, receive_signal)
+signal.signal(signal.SIGALRM, receive_signal)
+
+while True:
     try:
         draw_page()
 
