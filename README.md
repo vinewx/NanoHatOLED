@@ -5,18 +5,20 @@
 [4]: https://github.com/vinewx/NanoHatOLED/pulls
 [5]: https://img.shields.io/badge/Issues-welcome-brightgreen.svg
 [6]: https://github.com/vinewx/NanoHatOLED/issues/new
-[7]: https://img.shields.io/github/downloads/vinewx/NanoHatOLED/total
+[7]: https://img.shields.io/badge/release-v1.0.3-blue.svg?
 [8]: https://github.com/vinewx/NanoHatOLED/releases
+[9]: https://img.shields.io/github/downloads/vinewx/NanoHatOLED/total
 [![license][1]][2]
 [![PRs Welcome][3]][4]
 [![Issue Welcome][5]][6]
-[![Release Count][7]][8]
+[![Release Version][7]][8]
+[![Release Count][9]][8]
 
 OpenWrt OLED display for NanoHatOLED.
 ## Depends / 依赖
 - i2c-tools
-- python-pillow
-- python-smbus
+- python3-pillow
+- python3-smbus
 
 ## Compile / 编译
 ```bash

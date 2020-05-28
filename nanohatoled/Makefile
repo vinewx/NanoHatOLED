@@ -21,9 +21,11 @@
 # SOFTWARE.
 
 include $(TOPDIR)/rules.mk
+# The file included below defines PYTHON_VERSION
+include $(TOPDIR)/feeds/packages/lang/python/python3-version.mk
 
 PKG_NAME:=nanohatoled
-PKG_VERSION:=1.0.2
+PKG_VERSION:=1.0.3
 PKG_RELEASE:=1
 PKG_DATE:=20200527
 
@@ -35,7 +37,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/$(PKG_NAME)
 	TITLE:=Support for NanoHatOLED.
 	PKGARCH:=all
-	DEPENDS:=+i2c-tools +python-pillow +python-smbus
+	DEPENDS:=+i2c-tools +python3-pillow +python3-smbus
 endef
 
 define Package/$(PKG_NAME)/description
@@ -43,6 +45,7 @@ OpenWrt OLED display for NanoHatOLED.
 endef
 
 define Build/Prepare
+	sed -i "s/3.x/$(PYTHON3_VERSION)/g" ./src/main.c
 	mkdir -p $(PKG_BUILD_DIR)
 	$(CP) ./src/* $(PKG_BUILD_DIR)/
 endef
@@ -58,8 +61,14 @@ endef
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 if [ -z "$${IPKG_INSTROOT}" ]; then
-    /etc/init.d/nanohatoled enable
+	/etc/init.d/nanohatoled enable
 fi
+exit 0
+endef
+
+define Package/$(PKG_NAME)/postrm
+#!/bin/sh
+	rm -rf /usr/share/NanoHatOLED >/dev/null 2>&1
 exit 0
 endef
 

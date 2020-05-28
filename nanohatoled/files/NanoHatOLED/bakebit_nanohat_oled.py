@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- encoding:utf8 -*-
+# -*- coding: utf-8 -*-
 #
 # BakeBit example for the basic functions of BakeBit 128x64 OLED (http://wiki.friendlyarm.com/wiki/index.php/BakeBit_-_OLED_128x64)
 #
@@ -35,6 +35,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
 
+from __future__ import print_function
 import bakebit_128_64_oled as oled
 from PIL import Image
 from PIL import ImageFont
@@ -70,7 +71,7 @@ oled.init()  #initialze SEEED OLED display
 oled.setNormalDisplay()      #Set display to normal mode (i.e non-inverse mode)
 oled.setHorizontalMode()
 
-global drawing 
+global drawing
 drawing = False
 
 global image
@@ -79,10 +80,10 @@ global draw
 draw = ImageDraw.Draw(image)
 global fontb24
 fontb24 = ImageFont.truetype('DejaVuSansMono-Bold.ttf', 24);
-global font14 
+global font14
 font14 = ImageFont.truetype('DejaVuSansMono.ttf', 14);
 global smartFont
-smartFont = ImageFont.truetype('DejaVuSansMono-Bold.ttf', 10);
+smartFont = ImageFont.truetype('DejaVuSansMono.ttf', 10);
 global fontb14
 fontb14 = ImageFont.truetype('DejaVuSansMono-Bold.ttf', 14);
 global font11
@@ -152,7 +153,7 @@ def draw_page():
     drawing = True
     lock.release()
 
-    # Draw a black filled box to clear the image.            
+    # Draw a black filled box to clear the image.
     draw.rectangle((0,0,width,height), outline=0, fill=0)
     # Draw current page indicator
     if showPageIndicator:
@@ -187,15 +188,15 @@ def draw_page():
         except:
             IPAddress = get_ip()
         cmd = "cat /proc/loadavg| awk '{printf \"CPU Load: %.2f\", $(1)}'"
-        CPU = subprocess.check_output(cmd, shell = True )
+        CPU = subprocess.check_output(cmd, shell = True ).decode("utf-8", errors="ignore")
         cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.1f%%\", int($3/1024),int($2/1024),$3*100/$2 }'"
-        MemUsage = subprocess.check_output(cmd, shell = True )
+        MemUsage = subprocess.check_output(cmd, shell = True ).decode("utf-8", errors="ignore")
         cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
-        Disk = subprocess.check_output(cmd, shell = True )
+        Disk = subprocess.check_output(cmd, shell = True ).decode("utf-8", errors="ignore")
         tempI = int(open('/sys/class/thermal/thermal_zone0/temp').read());
         if tempI>1000:
             tempI = tempI/1000
-        tempStr = "CPU TEMP: %s" % str(tempI) + u'°C'
+        tempStr = u"CPU TEMP: %s\u00b0C" % int(tempI)
 
         draw.text((x+2, top),       "IP: " + str(IPAddress),  font=smartFont, fill=255)
         draw.text((x+2, top+12),    str(CPU), font=smartFont, fill=255)
@@ -262,7 +263,7 @@ def receive_signal(signum, stack):
         return
 
     if signum == signal.SIGUSR1:
-        print 'K1 pressed'
+        print('K1 pressed')
         if is_showing_power_msgbox():
             if page_index==3:
                 update_page_index(4)
@@ -274,12 +275,12 @@ def receive_signal(signum, stack):
             draw_page()
 
     if signum == signal.SIGUSR2:
-        print 'K2 pressed'
+        print('K2 pressed')
         if is_showing_power_msgbox():
             if page_index==4:
                 update_page_index(5)
                 draw_page()
- 
+
             else:
                 update_page_index(0)
                 draw_page()
@@ -288,7 +289,7 @@ def receive_signal(signum, stack):
             draw_page()
 
     if signum == signal.SIGALRM:
-        print 'K3 pressed'
+        print('K3 pressed')
         if is_showing_power_msgbox():
             update_page_index(0)
             draw_page()
