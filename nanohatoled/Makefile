@@ -23,9 +23,9 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nanohatoled
-PKG_VERSION:=1.0.2
+PKG_VERSION:=1.0.4
 PKG_RELEASE:=1
-PKG_DATE:=20200527
+PKG_DATE:=20200528
 
 PKG_LICENSE:=MIT
 PKG_MAINTAINER:=vinewx <https://github.com/vinewx/NanoHatOLED>
@@ -58,8 +58,14 @@ endef
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 if [ -z "$${IPKG_INSTROOT}" ]; then
-    /etc/init.d/nanohatoled enable
+	/etc/init.d/nanohatoled enable
 fi
+exit 0
+endef
+
+define Package/$(PKG_NAME)/postrm
+#!/bin/sh
+	rm -rf /usr/share/NanoHatOLED >/dev/null 2>&1
 exit 0
 endef
 
