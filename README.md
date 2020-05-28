@@ -24,5 +24,5 @@ src-git NanoHatOLED https://github.com/vinewx/NanoHatOLED.git
 make menuconfig
 ```
 ## Thanks / 谢致
-- 本项目代码基于[Pi群固件](https://t.me/NewPiN1Channel/21) by [jerrykuku](https://github.com/jerrykuku)
+- 本分支代码基于[Pi群固件](https://t.me/NewPiN1Channel/21) by [jerrykuku](https://github.com/jerrykuku)
 - [raspberry-gpio-python](https://sourceforge.net/projects/raspberry-gpio-python) by [croston](https://sourceforge.net/u/croston)
