@@ -5,7 +5,7 @@
 [4]: https://github.com/vinewx/NanoHatOLED/pulls
 [5]: https://img.shields.io/badge/Issues-welcome-brightgreen.svg
 [6]: https://github.com/vinewx/NanoHatOLED/issues/new
-[7]: https://img.shields.io/badge/release-v1.0.3-blue.svg?
+[7]: https://img.shields.io/badge/release-v1.0.4-blue.svg?
 [8]: https://github.com/vinewx/NanoHatOLED/releases
 [9]: https://img.shields.io/github/downloads/vinewx/NanoHatOLED/total
 [![license][1]][2]
@@ -17,19 +17,25 @@
 OpenWrt OLED display for NanoHatOLED.
 ## Depends / 依赖
 - i2c-tools
-- python3-pillow
-- python3-smbus
+- python-pillow / python3-pillow
+- python-smbus / python3-smbus
 
 ## Compile / 编译
 ```bash
-# 请在feeds.conf.default中下方添加
+# Add NanoHatOLED feed to feeds.conf.default (Choose one of the following feeds)
+# 请在feeds.conf.default中下方添加（二选一）
+# For Python3.x: 
 src-git NanoHatOLED https://github.com/vinewx/NanoHatOLED.git
+# For Python2.7:
+src-git NanoHatOLED https://github.com/vinewx/NanoHatOLED.git^e3285a3b37c7c34048c0ea108fa4ec18b49c0bfd
 
+# Update & Install
 # 更新并安装feeds软件包
-./scripts/feeds update -a
-./scripts/feeds install -a
+./scripts/feeds update NanoHatOLED && ./scripts/feeds install nanohatoled
 
-# 选择要编译的包 Extra packages -> nanohatoled
+# Select this list item
+# 选择要编译的包
+# Extra packages -> nanohatoled
 make menuconfig
 ```
 ## Thanks / 谢致

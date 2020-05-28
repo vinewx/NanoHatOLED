@@ -25,9 +25,9 @@ include $(TOPDIR)/rules.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-version.mk
 
 PKG_NAME:=nanohatoled
-PKG_VERSION:=1.0.3
+PKG_VERSION:=1.0.4
 PKG_RELEASE:=1
-PKG_DATE:=20200527
+PKG_DATE:=20200528
 
 PKG_LICENSE:=MIT
 PKG_MAINTAINER:=vinewx <https://github.com/vinewx/NanoHatOLED>
