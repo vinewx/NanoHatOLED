@@ -40,6 +40,7 @@ import bakebit_128_64_oled as oled
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
+import requests
 import time
 import sys
 import subprocess
@@ -88,6 +89,10 @@ global fontb14
 fontb14 = ImageFont.truetype('DejaVuSansMono-Bold.ttf', 14);
 global font11
 font11 = ImageFont.truetype('DejaVuSansMono.ttf', 11);
+global chinese
+chinese = ImageFont.truetype('fz.ttf', 12);
+global chinese10
+chinese11 = ImageFont.truetype('fz.ttf', 11);
 
 global lock
 lock = threading.Lock()
@@ -111,6 +116,16 @@ def get_ip():
     finally:
         s.close()
     return IP
+
+def get_weather():
+    url = 'http://t.weather.sojson.com/api/weather/city/101010100'
+    header = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36'
+    }
+    rep = requests.get(url, headers = header)
+    rep.encoding = "utf-8"
+    weather = rep.text
+    return weather
 
 def draw_page():
     global drawing
@@ -171,17 +186,46 @@ def draw_page():
     if page_index==0:
         text = time.strftime("%a %e %b %Y")
         draw.text((2,2),text,font=font14,fill=255)
-        year=time.strftime('%Y')
-        now=time.time()
-        start_date=time.mktime(time.strptime(year, '%Y'))
-        end_date=time.mktime(time.strptime(str(int(year)+1), '%Y'))
-        percent=int((now-start_date)/(end_date-start_date)*1000)/10.0
+        year = time.strftime('%Y')
+        now = time.time()
+        start_date = time.mktime(time.strptime(year, '%Y'))
+        end_date = time.mktime(time.strptime(str(int(year)+1), '%Y'))
+        percent = int((now-start_date)/(end_date-start_date)*1000)/10.0
         bar = int(round(percent/10, 0))
         text = bar * u'\u2593' + (10 - bar) * u'\u2591' + str(percent) + '%'
         draw.text((2,20),text,font=font14,fill=255)
         text = time.strftime("%X")
         draw.text((8,38),text,font=fontb24,fill=255)
-    elif page_index==1:
+
+    if page_index==1:
+        # Draw some shapes.
+        # First define some constants to allow easy resizing of shapes.
+        padding = 2
+        top = padding
+        bottom = height-padding
+        # Move left to right keeping track of the current x position for drawing shapes.
+        x = 0
+        weather = get_weather()
+        index_shidu = weather.find("shidu")
+        index_pm25 = weather.find("pm25")
+        index_quality = weather.find("quality")
+        index_wendu = weather.find("wendu")
+        index_ganmao = weather.find("ganmao")
+        index_forecast = weather.find("forecast")
+        index_fx = weather.find("fx", index_forecast)
+        index_fl = weather.find("fl", index_forecast)
+        index_type = weather.find("type", index_forecast)
+        index_notice = weather.find("notice", index_forecast)
+        text = "天气: " + weather[index_type + 7:index_notice - 3] + " " + weather[index_fx + 5:index_fl - 3] + weather[index_fl + 5:index_type - 3]
+        draw.text((x+2, top),    text, font=chinese, fill=255)
+        text = "空气质量: " + weather[index_quality + 10:index_wendu - 3]
+        draw.text((x+2, top+16), text, font=chinese, fill=255)
+        text = "气温: " + weather[index_wendu + 8:index_ganmao - 3] + u"\u2103" + " 湿度:" + weather[index_shidu + 8:index_pm25 - 3]
+        draw.text((x+2, top+32), text, font=chinese, fill=255)
+        text = weather[index_notice + 9:weather.find('}', index_notice) - 1]
+        draw.text((x+2, top+49), text, font=chinese11, fill=255)
+
+    elif page_index==2:
         # Draw some shapes.
         # First define some constants to allow easy resizing of shapes.
         padding = 2
@@ -248,6 +292,16 @@ def is_showing_power_msgbox():
     return False
 
 
+def is_showing_index1():
+    global pageIndex
+    lock.acquire()
+    page_index = pageIndex
+    lock.release()
+    if page_index==1:
+        return True
+    return False
+
+
 def update_page_index(pi):
     global pageIndex
     lock.acquire()
@@ -286,10 +340,12 @@ def receive_signal(signum, stack):
             if page_index==4:
                 update_page_index(5)
                 draw_page()
-
             else:
                 update_page_index(0)
                 draw_page()
+        elif is_showing_index1():
+            update_page_index(2)
+            draw_page()
         else:
             update_page_index(1)
             draw_page()

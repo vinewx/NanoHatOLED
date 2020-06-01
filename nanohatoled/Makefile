@@ -25,9 +25,9 @@ include $(TOPDIR)/rules.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-version.mk
 
 PKG_NAME:=nanohatoled
-PKG_VERSION:=1.0.4
+PKG_VERSION:=2.0.0
 PKG_RELEASE:=1
-PKG_DATE:=20200528
+PKG_DATE:=20200601
 
 PKG_LICENSE:=MIT
 PKG_MAINTAINER:=vinewx <https://github.com/vinewx/NanoHatOLED>
@@ -37,7 +37,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/$(PKG_NAME)
 	TITLE:=Support for NanoHatOLED.
 	PKGARCH:=all
-	DEPENDS:=+i2c-tools +python3-pillow +python3-smbus
+	DEPENDS:=+i2c-tools +python3-pillow +python3-smbus +python3-requests
 endef
 
 define Package/$(PKG_NAME)/description
