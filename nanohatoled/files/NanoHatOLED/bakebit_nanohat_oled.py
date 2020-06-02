@@ -90,9 +90,9 @@ fontb14 = ImageFont.truetype('DejaVuSansMono-Bold.ttf', 14);
 global font11
 font11 = ImageFont.truetype('DejaVuSansMono.ttf', 11);
 global chinese
-chinese = ImageFont.truetype('fz.ttf', 12);
+chinese = ImageFont.truetype('Zpix.ttf', 11);
 global chinese10
-chinese11 = ImageFont.truetype('fz.ttf', 11);
+chinese11 = ImageFont.truetype('Zpix.ttf', 10);
 
 global lock
 lock = threading.Lock()
@@ -187,17 +187,17 @@ def draw_page():
         text = time.strftime("%a %e %b %Y")
         draw.text((2,2),text,font=font14,fill=255)
         year = time.strftime('%Y')
-        now = time.time()
+        now  = time.time()
         start_date = time.mktime(time.strptime(year, '%Y'))
-        end_date = time.mktime(time.strptime(str(int(year)+1), '%Y'))
-        percent = int((now-start_date)/(end_date-start_date)*1000)/10.0
-        bar = int(round(percent/10, 0))
+        end_date   = time.mktime(time.strptime(str(int(year)+1), '%Y'))
+        percent    = int((now-start_date)/(end_date-start_date)*1000)/10.0
+        bar  = int(round(percent/10, 0))
         text = bar * u'\u2593' + (10 - bar) * u'\u2591' + str(percent) + '%'
-        draw.text((2,20),text,font=font14,fill=255)
+        draw.text((2,20),text, font=font14,  fill=255)
         text = time.strftime("%X")
-        draw.text((8,38),text,font=fontb24,fill=255)
+        draw.text((8,38),text, font=fontb24, fill=255)
 
-    if page_index==1:
+    elif page_index==1:
         # Draw some shapes.
         # First define some constants to allow easy resizing of shapes.
         padding = 2
@@ -221,7 +221,7 @@ def draw_page():
         text = "空气质量: " + weather[index_quality + 10:index_wendu - 3]
         draw.text((x+2, top+16), text, font=chinese, fill=255)
         text = "气温: " + weather[index_wendu + 8:index_ganmao - 3] + u"\u2103" + " 湿度:" + weather[index_shidu + 8:index_pm25 - 3]
-        draw.text((x+2, top+32), text, font=chinese, fill=255)
+        draw.text((x+2, top+32), text, font=chinese,   fill=255)
         text = weather[index_notice + 9:weather.find('}', index_notice) - 1]
         draw.text((x+2, top+49), text, font=chinese11, fill=255)
 
@@ -251,13 +251,14 @@ def draw_page():
         draw.text((x+2, top),       "IP: " + str(IPAddress),  font=smartFont, fill=255)
         draw.text((x+2, top+12),    str(CPU), font=smartFont, fill=255)
         draw.text((x+2, top+24),    str(MemUsage),  font=smartFont, fill=255)
-        draw.text((x+2, top+36),    str(Disk),  font=smartFont, fill=255)
+        draw.text((x+2, top+36),    str(Disk), font=smartFont, fill=255)
         draw.text((x+2, top+48),    tempStr,   font=smartFont, fill=255)
+
     elif page_index==3: #shutdown -- no
         draw.text((2, 2),  'Shutdown?',  font=fontb14, fill=255)
 
         draw.rectangle((2,20,width-4,20+16), outline=0, fill=0)
-        draw.text((4, 22),  'Yes',  font=font11, fill=255)
+        draw.text((4, 22),  'Yes', font=font11, fill=255)
 
         draw.rectangle((2,38,width-4,38+16), outline=0, fill=255)
         draw.text((4, 40),  'No',  font=font11, fill=0)
@@ -266,13 +267,13 @@ def draw_page():
         draw.text((2, 2),  'Shutdown?',  font=fontb14, fill=255)
 
         draw.rectangle((2,20,width-4,20+16), outline=0, fill=255)
-        draw.text((4, 22),  'Yes',  font=font11, fill=0)
+        draw.text((4, 22),  'Yes', font=font11, fill=0)
 
         draw.rectangle((2,38,width-4,38+16), outline=0, fill=0)
         draw.text((4, 40),  'No',  font=font11, fill=255)
 
     elif page_index==5:
-        draw.text((2, 2),  'Shutting down',  font=fontb14, fill=255)
+        draw.text((2, 2),  'Shutting down', font=fontb14, fill=255)
         draw.text((2, 20),  'Please wait',  font=font11, fill=255)
 
     oled.drawImage(image)
@@ -291,7 +292,6 @@ def is_showing_power_msgbox():
         return True
     return False
 
-
 def is_showing_index1():
     global pageIndex
     lock.acquire()
@@ -300,7 +300,6 @@ def is_showing_index1():
     if page_index==1:
         return True
     return False
-
 
 def update_page_index(pi):
     global pageIndex

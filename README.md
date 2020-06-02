@@ -5,41 +5,46 @@
 [4]: https://github.com/vinewx/NanoHatOLED/pulls
 [5]: https://img.shields.io/badge/Issues-welcome-brightgreen.svg
 [6]: https://github.com/vinewx/NanoHatOLED/issues/new
-[7]: https://img.shields.io/badge/release-v1.0.4-blue.svg?
-[8]: https://github.com/vinewx/NanoHatOLED/releases
-[9]: https://img.shields.io/github/downloads/vinewx/NanoHatOLED/total
+[7]: https://img.shields.io/badge/version-v2.0.0-blue.svg?
 [![license][1]][2]
 [![PRs Welcome][3]][4]
 [![Issue Welcome][5]][6]
-[![Release Version][7]][8]
-[![Release Count][9]][8]
+![Version][7]
 
 OpenWrt OLED display for NanoHatOLED.
 ## Depends / 依赖
 - i2c-tools
-- python-pillow / python3-pillow
-- python-smbus / python3-smbus
+- python3-pillow
+- python3-requests
+- python3-smbus
 
 ## Compile / 编译
+1. 请在feeds.conf.default中下方添加
 ```bash
-# Add NanoHatOLED feed to feeds.conf.default (Choose one of the following feeds)
-# 请在feeds.conf.default中下方添加（二选一）
-# For Python3.x: 
-src-git NanoHatOLED https://github.com/vinewx/NanoHatOLED.git
-# For Python2.7:
-src-git NanoHatOLED https://github.com/vinewx/NanoHatOLED.git^e3285a3b37c7c34048c0ea108fa4ec18b49c0bfd
+src-git NanoHatOLED https://github.com/vinewx/NanoHatOLED.git^2763e8abb30804eaaf64b9a7e79c24557f2795f3
+```
 
-# Update & Install
-# 更新并安装feeds软件包
-./scripts/feeds update NanoHatOLED && ./scripts/feeds install nanohatoled
+2. 更新feeds
+```bash
+./scripts/feeds update NanoHatOLED
+```
+3. 修改`OpenWrt` 项目的 `feeds/NanoHatOLED/nanohatoled/files/NanoHatOLED` 目录下`bakebit_nanohat_oled.py`文件  
+第121行`101010100`改为你所在地区的9位编码  
+编码查询 -> [citycode.json](https://github.com/vinewx/NanoHatOLED/blob/weather/citycode.json)
 
-# Select this list item
-# 选择要编译的包
+4. 安装feeds
+```bash
+./scripts/feeds install nanohatoled
+```
+
+5. 选择要编译的包
+```bash
 # Extra packages -> nanohatoled
 make menuconfig
 ```
 ## Thanks / 谢致
-Based on: 
-- [friendlyarm/NanoHatOLED](https://github.com/friendlyarm/NanoHatOLED) 
+- Based on: [friendlyarm/NanoHatOLED](https://github.com/friendlyarm/NanoHatOLED)
+- [Weather API](https://www.sojson.com/api/weather.html)
+- [zpix-pixel-font](https://github.com/SolidZORO/zpix-pixel-font) 
 
-<img src="https://github.com/vinewx/NanoHatOLED/raw/master/assets/k1.jpg" width="250" /> <img src="https://github.com/vinewx/NanoHatOLED/raw/master/assets/k2.jpg" width="250" /> <img src="https://github.com/vinewx/NanoHatOLED/raw/master/assets/k3.jpg" width="250" />
+<img src="https://github.com/vinewx/NanoHatOLED/raw/weather/assets/k1.jpg" width="200" /> <img src="https://github.com/vinewx/NanoHatOLED/raw/weather/assets/k2_1.jpg" width="200" /> <img src="https://github.com/vinewx/NanoHatOLED/raw/weather/assets/k2_2.jpg" width="200" /> <img src="https://github.com/vinewx/NanoHatOLED/raw/weather/assets/k3.jpg" width="200" />
