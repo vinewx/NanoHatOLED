@@ -21,7 +21,7 @@ OpenWrt OLED display for NanoHatOLED.
 ## Compile / 编译
 1. 请在feeds.conf.default中下方添加
 ```bash
-src-git NanoHatOLED https://github.com/vinewx/NanoHatOLED.git^2763e8abb30804eaaf64b9a7e79c24557f2795f3
+src-git NanoHatOLED https://github.com/vinewx/NanoHatOLED.git^547ec7e5d69455f000ba1987189999a3bee0b83f
 ```
 
 2. 更新feeds
