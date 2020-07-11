@@ -45,6 +45,7 @@ make menuconfig
 ## Thanks / 谢致
 - Based on: [friendlyarm/NanoHatOLED](https://github.com/friendlyarm/NanoHatOLED)
 - [Weather API](https://www.sojson.com/api/weather.html)
-- [zpix-pixel-font](https://github.com/SolidZORO/zpix-pixel-font) 
+- [zpix-pixel-font](https://github.com/SolidZORO/zpix-pixel-font)
+- ![caiyun](http://caiyunapp.com/imgs/logo/logo-website.png)
 
 <img src="https://github.com/vinewx/NanoHatOLED/raw/weather/assets/k1.jpg" width="200" /> <img src="https://github.com/vinewx/NanoHatOLED/raw/weather/assets/k2_1.jpg" width="200" /> <img src="https://github.com/vinewx/NanoHatOLED/raw/weather/assets/k2_2.jpg" width="200" /> <img src="https://github.com/vinewx/NanoHatOLED/raw/weather/assets/k3.jpg" width="200" />
